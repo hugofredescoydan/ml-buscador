@@ -34,3 +34,7 @@ app.get("/search", async (req, res) => {
   }
 });
 
+// ✅ Importante: escuchar en 0.0.0.0 para que Render lo detecte
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Servidor activo en puerto ${PORT}`);
+});
