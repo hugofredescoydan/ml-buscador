@@ -17,6 +17,9 @@ app.get("/search", async (req, res) => {
   try {
     const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
     const response = await axios.get(url);
+
+    console.log("🔍 API response data:", JSON.stringify(response.data, null, 2));
+
     const results = response.data.results.map(item => ({
       title: item.title,
       price: item.price,
@@ -31,6 +34,3 @@ app.get("/search", async (req, res) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor activo en puerto ${PORT}`);
-});
