@@ -5,14 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // URL de Apps Script que devuelve el token
-// 🔐 Obtener token desde tu Apps Script
-const tokenRes = await axios.get(TOKEN_ENDPOINT);
-const token = tokenRes.data.trim();
-
-console.log("🔐 TOKEN OBTENIDO:", token);  // 👈 NUEVO LOG
-
-// 🔍 Llamar a la API de Mercado Libre
-
+const TOKEN_ENDPOINT = "https://script.google.com/macros/s/AKfycbx3oK8xO1tmO5Yz-1zHocrlfF7y26dyAvk8DtzCbJjnq3tLxA_7uR8jtFD66mhapRM/exec";
 
 app.get("/", (req, res) => {
   res.send("✅ El servidor está en funcionamiento.");
@@ -28,6 +21,8 @@ app.get("/search", async (req, res) => {
     // 🔐 Obtener token desde tu Apps Script
     const tokenRes = await axios.get(TOKEN_ENDPOINT);
     const token = tokenRes.data.trim();
+
+    console.log("🔐 TOKEN OBTENIDO:", token);
 
     // 🔍 Llamar a la API de Mercado Libre con token
     const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
