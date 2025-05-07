@@ -19,7 +19,7 @@ app.get("/search", async (req, res) => {
     const url = `https://listado.mercadolibre.cl/${encodeURIComponent(query)}`;
     const response = await axios.get(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0' // emula navegador real
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/90.0.4430.85 Safari/537.36'
       }
     });
 
@@ -27,13 +27,13 @@ app.get("/search", async (req, res) => {
     const $ = cheerio.load(html);
     const resultados = [];
 
-    $('li.ui-search-layout__item').each((i, el) => {
+    $('.ui-search-result__content-wrapper').each((i, el) => {
       const title = $(el).find('h2.ui-search-item__title').text().trim();
-      const price = $(el).find('span.andes-money-amount__fraction').first().text().trim();
-      const link = $(el).find('a.ui-search-link').attr('href');
+      const price = $(el).find('span.andes-money-amount__fraction').text().trim();
+      const url = $(el).closest('a.ui-search-link').attr('href');
 
-      if (title && price && link) {
-        resultados.push({ title, price, link });
+      if (title && price && url) {
+        resultados.push({ title, price, url });
       }
     });
 
