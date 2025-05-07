@@ -4,18 +4,6 @@ const axios = require("axios");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("✅ El servidor está en funcionamiento.");
-});
-
-const ACCESS_TOKEN = 'APP_USR-241718011749496-050607-9b519718db89cfffe4621ab0b6510206-241853977';
-
-const express = require("express");
-const axios = require("axios");
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 // URL de Apps Script que devuelve el token
 const TOKEN_ENDPOINT = "https://script.google.com/macros/s/AKfycbx3oK8xO1tmO5Yz-1zHocrlfF7y26dyAvk8DtzCbJjnq3tLxA_7uR8jtFD66mhapRM/exec";
 
@@ -60,13 +48,6 @@ app.get("/search", async (req, res) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Servidor activo en puerto ${PORT}`);
-});
-
-
-
-// ✅ Importante: escuchar en 0.0.0.0 para que Render lo detecte
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor activo en puerto ${PORT}`);
 });
