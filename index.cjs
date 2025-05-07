@@ -23,20 +23,13 @@ app.get("/search", async (req, res) => {
   }
 
   try {
-    // Obtener token desde tu Apps Script
+    // ✅ Obtener token actualizado desde Apps Script
     const tokenRes = await axios.get(TOKEN_ENDPOINT);
     const token = tokenRes.data.trim();
-
     console.log("🔐 TOKEN OBTENIDO:", token);
 
-    // Verificar si el token parece ser válido
-    if (!token.startsWith("APP_USR-")) {
-      console.error("❌ Token inválido recibido:", token);
-      return res.status(500).json({ error: "Token inválido recibido desde Apps Script" });
-    }
-
-    // Llamar a la API de Mercado Libre con token
     const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
+
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`
