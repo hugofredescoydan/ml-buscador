@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 const TOKEN_ENDPOINT = "https://script.google.com/macros/s/AKfycbyL4tEKSXB1JbEzCyDSSNUIEVQytdZoQI2b1rQE-jl1hGs2DPJfe1fzYiMYRSLi4u8/exec";
 
 
+
 app.get("/", (req, res) => {
   res.send("✅ El servidor está en funcionamiento.");
 });
@@ -19,13 +20,19 @@ app.get("/search", async (req, res) => {
   }
 
   try {
-    // 🔐 Obtener token desde tu Apps Script
+    // Obtener token desde tu Apps Script
     const tokenRes = await axios.get(TOKEN_ENDPOINT);
     const token = tokenRes.data.trim();
 
     console.log("🔐 TOKEN OBTENIDO:", token);
 
-    // 🔍 Llamar a la API de Mercado Libre con token
+    // Verificar si el token parece ser válido
+    if (!token.startsWith("APP_USR-")) {
+      console.error("❌ Token inválido recibido:", token);
+      return res.status(500).json({ error: "Token inválido recibido desde Apps Script" });
+    }
+
+    // Llamar a la API de Mercado Libre con token
     const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
     const response = await axios.get(url, {
       headers: {
@@ -42,7 +49,7 @@ app.get("/search", async (req, res) => {
 
     res.json(results);
   } catch (e) {
-    console.error("❌ Error:", e.message);
+    console.error("❌ Error al obtener datos de Mercado Libre:", e.message);
     if (e.response) {
       console.error("📋 Código:", e.response.status);
       console.error("📋 Detalle:", e.response.data);
@@ -50,6 +57,7 @@ app.get("/search", async (req, res) => {
     res.status(500).json({ error: "Error al obtener datos de Mercado Libre" });
   }
 });
+
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor activo en puerto ${PORT}`);
