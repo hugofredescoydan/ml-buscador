@@ -5,7 +5,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // URL de Apps Script que devuelve el token
-const TOKEN_ENDPOINT = "https://script.google.com/macros/s/AKfycbx3oK8xO1tmO5Yz-1zHocrlfF7y26dyAvk8DtzCbJjnq3tLxA_7uR8jtFD66mhapRM/exec";
+const TOKEN_ENDPOINT = "https://script.google.com/macros/s/AKfycbyL4tEKSXB1JbEzCyDSSNUIEVQytdZoQI2b1rQE-jl1hGs2DPJfe1fzYiMYRSLi4u8/exec";
+
 
 app.get("/", (req, res) => {
   res.send("✅ El servidor está en funcionamiento.");
