@@ -43,7 +43,7 @@ app.get("/search", async (req, res) => {
     res.status(500).json({ error: "Error al consultar la API de Mercado Libre" });
   }
 });
-);
+
 
 // ✅ Importante: escuchar en 0.0.0.0 para que Render lo detecte
 app.listen(PORT, '0.0.0.0', () => {
