@@ -5,7 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // URL de Apps Script que devuelve el token
-const TOKEN_ENDPOINT = "https://script.google.com/macros/s/AKfycbyM4Zx5xbpeVUHLit9nlmsxEn1Nxw-uGGHQ-3h7BjKrTbLCjQ5TpVO7NeIIjicEs1kw/exec";
+const TOKEN_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzuGWzdVvf11j_BrpVB4p_ZHzhAxZpjzp2J_lhHwE-9DJIE_uDBUt9QfuA-fknPfJRy/exec';
+
+
 
 
 
