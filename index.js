@@ -1,6 +1,5 @@
 const express = require("express");
 const axios = require("axios");
-const cheerio = require("cheerio");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,31 +15,19 @@ app.get("/search", async (req, res) => {
   }
 
   try {
-    const url = `https://listado.mercadolibre.cl/${encodeURIComponent(query)}`;
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-      }
-    });
+    const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
+    const response = await axios.get(url);
+    const results = response.data.results.map(item => ({
+      title: item.title,
+      price: item.price,
+      seller_id: item.seller.id,
+      permalink: item.permalink
+    }));
 
-    const html = response.data;
-    const $ = cheerio.load(html);
-    const resultados = [];
-
-    $('div.ui-search-result__content-wrapper').each((i, el) => {
-      const title = $(el).find('h2.ui-search-item__title').text().trim();
-      const price = $(el).find('span.andes-money-amount__fraction').text().trim();
-      const link = $(el).closest('a').attr('href');
-
-      if (title && price && link) {
-        resultados.push({ title, price, link });
-      }
-    });
-
-    res.json(resultados.slice(0, 10));
+    res.json(results);
   } catch (e) {
     console.error("❌ Error:", e.message);
-    res.status(500).json({ error: "Error al obtener datos de Mercado Libre" });
+    res.status(500).json({ error: "Error al consultar la API de Mercado Libre" });
   }
 });
 
