@@ -20,18 +20,9 @@ app.get("/search", async (req, res) => {
   }
 
   try {
-    // 🔐 Obtener token desde Apps Script
-    const tokenRes = await axios.get(TOKEN_ENDPOINT);
-    const token = tokenRes.data.trim();
-    console.log("🔐 TOKEN OBTENIDO:", token);
+const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
+const response = await axios.get(url);  // 🔓 Sin autenticación
 
-    // 🔍 Hacer búsqueda en Mercado Libre
-    const url = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=10`;
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
 
     const results = response.data.results.map(item => ({
       title: item.title,
